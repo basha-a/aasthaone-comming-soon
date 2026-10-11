@@ -71,10 +71,6 @@ document.getElementById("year").textContent = new Date().getFullYear();
   };
 
   form.classList.remove("d-none");
-  // The form is now the main action, so make "See what's coming" a quieter link
-  const explore = document.getElementById("explore-btn");
-  explore.classList.remove("btn-brand", "btn-lg");
-  explore.classList.add("btn-link-brand");
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();

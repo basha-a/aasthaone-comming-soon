@@ -22,10 +22,16 @@
   --bs-body-bg: var(--bg);
 }
 
+html,
+body {
+  overflow-x: hidden; /* fallback for browsers without overflow: clip */
+  overflow-x: clip;   /* keeps the background glows from causing sideways scroll on iOS */
+}
+
 body {
   position: relative;
   min-height: 100vh;
-  overflow-x: hidden;
+  min-height: 100dvh;
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
 }
@@ -176,10 +182,16 @@ h1, h2, h3 {
   transition: transform 0.15s, box-shadow 0.15s;
 }
 
-.btn-brand:hover,
 .btn-brand:focus-visible {
   transform: translateY(-1px);
   box-shadow: 0 12px 28px rgba(235, 91, 42, 0.38);
+}
+
+@media (hover: hover) {
+  .btn-brand:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 28px rgba(235, 91, 42, 0.38);
+  }
 }
 
 .btn-brand.btn-lg {
@@ -315,10 +327,18 @@ h1, h2, h3 {
   transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
 }
 
-.service-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(238, 111, 48, 0.4);
-  box-shadow: var(--shadow);
+/* Hover lift only on devices that can hover, so cards don't stay "stuck" after a tap */
+@media (hover: hover) {
+  .service-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(238, 111, 48, 0.4);
+    box-shadow: var(--shadow);
+  }
+
+  .service-card:hover .service-icon {
+    background: var(--primary-gradient);
+    color: #fff;
+  }
 }
 
 .service-icon {
@@ -332,11 +352,6 @@ h1, h2, h3 {
   color: var(--primary);
   font-size: 26px;
   transition: background 0.2s, color 0.2s;
-}
-
-.service-card:hover .service-icon {
-  background: var(--primary-gradient);
-  color: #fff;
 }
 
 .service-card h3 {
@@ -381,17 +396,57 @@ h1, h2, h3 {
   .js .reveal { opacity: 1; transform: none; transition: none; }
 }
 
+/* Tablets */
+@media (max-width: 991.98px) {
+  .hero { padding-bottom: 80px; }
+  .services { padding-bottom: 80px; }
+}
+
 /* Phones */
 @media (max-width: 575.98px) {
+  .container { --bs-gutter-x: 2rem; } /* 16px side gutter */
   .site-logo { height: 34px; }
   .status-pill { padding: 6px 12px; font-size: 13px; }
-  .hero { padding-bottom: 72px; }
-  .hero-mark { width: 160px; height: 160px; }
+  .hero { padding-top: 16px; padding-bottom: 64px; }
+  .hero-mark { width: 160px; height: 160px; margin-bottom: 16px; }
   .diya { inset: 30px; width: 100px; height: 100px; }
+  .eyebrow { font-size: 12px; letter-spacing: 1.5px; }
+  .hero-title { font-size: clamp(32px, 9.5vw, 40px); letter-spacing: -1px; }
   .hero-lead { font-size: 16px; }
-  .countdown { gap: 8px; }
-  .countdown-item { min-width: 0; flex: 1; padding: 12px 4px; }
+  .btn-brand.btn-lg { width: 100%; max-width: 320px; }
+  .countdown { gap: 8px; margin-top: 28px; }
+  .countdown-item { min-width: 0; flex: 1; padding: 12px 4px; border-radius: 14px; }
   .countdown-item span { font-size: 26px; }
+  .countdown-item small { font-size: 10px; letter-spacing: 0.5px; }
   .notify-input { flex-wrap: wrap; padding: 10px; }
+  .notify-input .form-control { flex: 1; min-width: 0; }
   .notify-input .btn-brand { width: 100%; }
+  .services { padding-bottom: 64px; scroll-margin-top: 16px; }
+  .services .mb-5 { margin-bottom: 2rem !important; }
+  .section-lead { font-size: 16px; }
+  .services .row { --bs-gutter-y: 1rem; }
+
+  /* Compact cards: icon sits beside the title instead of above it */
+  .service-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 16px;
+    align-items: center;
+    padding: 20px;
+    border-radius: 18px;
+  }
+  .service-icon { width: 48px; height: 48px; margin-bottom: 0; border-radius: 14px; font-size: 22px; }
+  .service-card h3 { margin: 0; font-size: 18px; }
+  .service-card p { grid-column: 1 / -1; margin-top: 12px; }
+
+  .site-footer { padding: 24px 0; text-align: center; }
+}
+
+/* Small phones (iPhone SE 1st gen, Galaxy Fold, etc.) */
+@media (max-width: 359.98px) {
+  .site-logo { height: 28px; }
+  .status-pill { gap: 6px; padding: 5px 10px; font-size: 12px; }
+  .hero-mark { width: 140px; height: 140px; }
+  .diya { inset: 26px; width: 88px; height: 88px; }
+  .countdown-item span { font-size: 22px; }
 }
